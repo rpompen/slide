@@ -1,4 +1,6 @@
-# slide
+# Slide rule bezel simulation
+
+An attempt at recreating the slide rule bezels on watches in an interactive fashion, using SVG and CSS for rotation.
 
 ## An empty project made by mkproj
 
