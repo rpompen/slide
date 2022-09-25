@@ -6,9 +6,6 @@ An attempt at recreating the slide rule bezels on watches in an interactive fash
 * Inner bezel rotation (E6-B)
 * Outer bezel rotation (watches)
 
-# DEMO
-https://github.com/rpompen/slide/site/index.html
-
 ## An empty project made by mkproj
 
 (when in VS code, press `ctrl-k v` to render this file)
