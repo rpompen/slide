@@ -2,7 +2,7 @@
   (:require [hoplon.core :refer [defelem div table for-tpl td tr th h1 text
                                  select option]]
             [hoplon.jquery]
-            [hoplon.svg :refer [g svg circle line]]
+            [hoplon.svg :as svg :refer [g svg circle line]]
             [slide.rpc :as rpc]
             [javelin.core :refer [defc defc= cell cell= dosync]]))
 
@@ -10,20 +10,31 @@
 (defc= selected-watch (first (filter #(= (:model %) selected-watch-name) rpc/watches)))
 (defc= graduations (rpc/bezel selected-watch))
 
-(defelem bezel-table
-  [_ _]
-  (table
-   (tr (th "Radial") (th "Label"))
-   (for-tpl [[radial label] graduations]
-            (tr (td radial) (td label)))))
+(defn rad->deg [x] (/ (* x 180) Math/PI))
+
+(defn rotate-number
+  [deg]
+  (if-not (<= 0 deg 180)
+    deg
+    (- deg 180)))
 
 (defelem radial
-  [{:keys [cx cy rad radius len] :as attr} _]
-  (let [x2 (cell= (+ cx (* radius (Math/cos rad))))
+  [{:keys [cx cy rad radius len label label-distance upside-down outer-bezel] :as attr} _]
+  (let [len (cell= (if (some? label) (* len 1.3) len))
+        x2 (cell= (+ cx (* radius (Math/cos rad))))
         y2 (cell= (+ cy (* radius (Math/sin rad))))
-        x1 (cell= (+ cx (* (- radius len) (Math/cos rad))))
-        y1 (cell= (+ cy (* (- radius len) (Math/sin rad))))]
-    (line :x1 x1 :y1 y1 :x2 x2 :y2 y2 attr)))
+        x1 (cell= (+ cx (* ((if outer-bezel + -) radius len) (Math/cos rad))))
+        y1 (cell= (+ cy (* ((if outer-bezel + -) radius len) (Math/sin rad))))
+        xl (cell= (+ cx (* ((if outer-bezel + -) radius len label-distance) (Math/cos rad))))
+        yl (cell= (+ cy (* ((if outer-bezel + -) radius len label-distance) (Math/sin rad))))]
+    (g (line :x1 x1 :y1 y1 :x2 x2 :y2 y2 attr)
+       (svg/text :x xl :y yl :fill "white"
+                 :text-anchor "middle" :dominant-baseline "middle"
+                 :transform (cell= (str "rotate("
+                                        (+ (if upside-down 
+                                             (rad->deg rad)
+                                             (rotate-number (rad->deg rad)))
+                                           90) " " xl "," yl ")")) label))))
 
 (defelem inner-bezel
   [{watch :watch} _]
@@ -32,12 +43,14 @@
         unit  #(str % "mm")]
     (svg :viewBox "0 0 500 500"
          :width (cell= (unit canvas)) :height (cell= (unit canvas))
-         (g (circle :cx 250 :cy 250 :r 250
-                    :stroke "green" :stroke-width 2
-                    :fill "yellow")
-            (for-tpl [[rad] graduations]
-                     (radial :cx 250 :cy 250 :radius 250 :rad rad :len 12
-                             :style "stroke: red; stroke-width: 2"))))))
+         (g (circle :cx 250 :cy 250 :r 248
+                    :stroke "black" :stroke-width 1
+                    :fill "navy")
+            (for-tpl [[rad label] graduations]
+                     (radial :cx 250 :cy 250 :radius 248 :rad rad :len 12
+                             :label label :label-distance 15
+                             :upside-down (cell= (:upside-down watch))
+                             :style "stroke: white; stroke-width: 1"))))))
 
 (defelem main [_ _]
   (div :id "app"

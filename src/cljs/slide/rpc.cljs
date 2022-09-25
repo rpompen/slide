@@ -6,22 +6,25 @@
 (def watches [{:model "E6-B"
                :diameter 152
                :idx-on-top true
+               :upside-down true
                :graduations [{:ticks [60 150]
                               :lbls [60 105 5]}
                              {:ticks [150 300 2]
                               :lbls [100 250 10]}
                              {:ticks [300 600 5]
                               :lbls [250 600 50]}]}
+              
               {:model "breitling-navitimer"
-               :diameter 46
+               :diameter 152 ;; 46
                :graduations [{:ticks [60 120]
                               :lbls [60 105 5]}
                              {:ticks [120 250 2]
                               :lbls [100 250 10]}
                              {:ticks [250 600 5]
                               :lbls [250 600 50]}]}
+              
               {:model "seiko-flightmaster"
-               :diameter 45.5
+               :diameter 152 ;; 45.5
                :graduations [{:ticks [60 150]
                               :lbls [60 105 5]}
                              {:ticks [150 300 2]
