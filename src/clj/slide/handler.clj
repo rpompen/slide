@@ -4,6 +4,7 @@
    [compojure.core                 :refer [defroutes GET]]
    [compojure.route                :refer [resources not-found]]
    [ring.middleware.defaults       :refer [wrap-defaults api-defaults]]
+   [ring.middleware.gzip           :refer [wrap-gzip]]
    [ring.middleware.resource       :refer [wrap-resource]]
    [ring.middleware.session        :refer [wrap-session]]
    [ring.middleware.not-modified   :refer [wrap-not-modified]]
@@ -28,4 +29,5 @@
       (wrap-cors :access-control-allow-origin (re-pattern (str "https://" server "/"))
                  :access-control-allow-methods [:get :put :post :delete])
       (wrap-content-type)
-      (wrap-not-modified)))
+      (wrap-not-modified)
+      (wrap-gzip)))

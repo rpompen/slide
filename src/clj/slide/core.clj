@@ -1,13 +1,13 @@
 (ns slide.core
   (:require [slide.handler :as handler]
-            [org.httpkit.server :refer [run-server]]
+            [ring.adapter.jetty :refer [run-jetty]]
             [slide.shared :refer [port]])
   (:gen-class))
 
 (def server (atom nil))
 
 (defn app [port]
-  (run-server handler/app {:port port}))
+  (run-jetty handler/app {:join? false :port port}))
 
 (defn start-server
   "Start web-server."

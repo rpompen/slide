@@ -41,16 +41,22 @@
   (let [diameter (cell= (:diameter watch))
         canvas (cell= (- diameter 8))
         unit  #(str % "mm")]
-    (svg :viewBox "0 0 500 500"
+    (svg :viewBox "0 0 600 600"
          :width (cell= (unit canvas)) :height (cell= (unit canvas))
-         (g (circle :cx 250 :cy 250 :r 248
+         (g (circle :cx 300 :cy 300 :r 248
                     :stroke "black" :stroke-width 1
                     :fill "navy")
             (for-tpl [[rad label] graduations]
-                     (radial :cx 250 :cy 250 :radius 248 :rad rad :len 12
-                             :label label :label-distance 15
-                             :upside-down (cell= (:upside-down watch))
-                             :style "stroke: white; stroke-width: 1"))))))
+                     [(radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
+                              :label label :label-distance 15
+                              :upside-down (cell= (:upside-down watch))
+                              :outer-bezel true
+                              :style "stroke: white; stroke-width: 1")
+                      (radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
+                              :label label :label-distance 15
+                              :upside-down (cell= (:upside-down watch))
+                              :outer-bezel false
+                              :style "stroke: white; stroke-width: 1")])))))
 
 (defelem main [_ _]
   (div :id "app"

@@ -2,7 +2,6 @@
 
 An attempt at recreating the slide rule bezels on watches in an interactive fashion, using SVG and CSS for rotation.
 ## TODO
-* Outer bezel
 * Inner bezel rotation (E6-B)
 * Outer bezel rotation (watches)
 
