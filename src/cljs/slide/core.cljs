@@ -46,17 +46,23 @@
          (g (circle :cx 300 :cy 300 :r 248
                     :stroke "black" :stroke-width 1
                     :fill "navy")
-            (for-tpl [[rad label] graduations]
-                     [(radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
-                              :label label :label-distance 15
-                              :upside-down (cell= (:upside-down watch))
-                              :outer-bezel true
-                              :style "stroke: white; stroke-width: 1")
-                      (radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
-                              :label label :label-distance 15
-                              :upside-down (cell= (:upside-down watch))
-                              :outer-bezel false
-                              :style "stroke: white; stroke-width: 1")])))))
+            (circle :cx 300 :cy 300 :r 2
+                    :stroke "black" :stroke-width 1
+                    :fill "black")
+            (g :id "outer"
+               (for-tpl [[rad label] graduations]
+                        (radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
+                                :label label :label-distance 15
+                                :upside-down (cell= (:upside-down watch))
+                                :outer-bezel true
+                                :style "stroke: white; stroke-width: 1")))
+            (g :id "inner"
+               (for-tpl [[rad label] graduations]
+                        (radial :cx 300 :cy 300 :radius 248 :rad rad :len 12
+                                :label label :label-distance 15
+                                :upside-down (cell= (:upside-down watch))
+                                :outer-bezel false
+                                :style "stroke: white; stroke-width: 1")))))))
 
 (defelem main [_ _]
   (div :id "app"
