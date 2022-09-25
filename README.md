@@ -72,6 +72,55 @@ If you move the jar file, keep in mind that all paths are relative to the locati
 Run `clj -Moutdated` from the project directory.
 A table of suggested updates (to be put in deps.edn) might be shown.
 
+# hoplon elements
+
+## Input type:
+
+### text
+```
+:change / :input
+:value
+:placeholder
+```
+### range
+```
+:min :max :step
+:value
+:input
+```
+### select
+```
+:change
+:value
+        option
+        :selected
+        :value
+        "label"
+```
+### select
+```
+:multiple true
+:change event.-target.-selectedOptions supports .item.-value
+        .-length
+
+        option
+        :selected
+        :value
+        "label"
+```
+### checkbox
+```
+:click  Fns should return true
+:value
+```
+### radio
+```
+:click
+:checked
+:name
+:value
+```
+
 ## Study material
 
 Lightweight intro:  
