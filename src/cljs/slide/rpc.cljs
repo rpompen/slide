@@ -1,12 +1,12 @@
 (ns slide.rpc)
 
 ;; Todo: extra graduations for unit conversion
+;; Sexagesimal scale from 1:10 to 9:00
 ;; Navitimer: 60 MPH, 61 KM, 36 SEC, 38 STAT. MI, 33 NAUT. MI.
 
 (def watches [{:model "E6-B"
-               :diameter 152
+               :diameter 140
                :idx-on-top true
-               :upside-down true
                :graduations [{:ticks [60 150]
                               :lbls [60 105 5]}
                              {:ticks [150 300 2]
@@ -15,7 +15,7 @@
                               :lbls [250 600 50]}]}
               
               {:model "breitling-navitimer"
-               :diameter 152 ;; 46
+               :diameter 46
                :graduations [{:ticks [60 120]
                               :lbls [60 105 5]}
                              {:ticks [120 250 2]
@@ -24,7 +24,7 @@
                               :lbls [250 600 50]}]}
               
               {:model "seiko-flightmaster"
-               :diameter 152 ;; 45.5
+               :diameter 45.5
                :graduations [{:ticks [60 150]
                               :lbls [60 105 5]}
                              {:ticks [150 300 2]
@@ -63,6 +63,6 @@
         ticks (rule :ticks watch)
         lbls (set (rule :lbls watch))]
     (into (sorted-map)
-          (map #(vector (tick->rad % idx-on-top) (chop-lbl (lbls %))) ticks))))
+          (map #(vector (tick->rad % idx-on-top) [(chop-lbl (lbls %)) %]) ticks))))
 
 (def listed-watches (map :model watches))
